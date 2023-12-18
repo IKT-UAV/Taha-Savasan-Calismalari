@@ -1,0 +1,19 @@
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:8000/sunucusaati
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/qr_koordinati
+Accept: application/json
+
+###
+POST http://127.0.0.1:8000/giris
+Content-Type: application/json
+Content-Length: 43
+
+{
+    "kadi": "iktuav",
+    "sifre": "123456"
+}
