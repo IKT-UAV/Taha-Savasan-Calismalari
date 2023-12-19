@@ -1,8 +1,17 @@
 from datetime import datetime
-
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
+import psycopg2
+
+db_name = "savasan"
+db_user = "postgres"
+db_password = "fd49db33b2"
+db_host = "localhost"
+db_port = "5432"
+
+conn = psycopg2.connect(database=db_name, user=db_user, password=db_password, host=db_host, port=db_port)
+cur = conn.cursor()
 
 
 class GirisData(BaseModel):
@@ -44,6 +53,12 @@ def get_current_user():
 @app.post("/giris")
 async def login(giris_data: GirisData):
     if user_session.authenticate_user(giris_data.kadi, giris_data.sifre):
+        query = """
+            INSERT INTO takimbilgileri (kadi, sifre)
+            VALUES (%s, %s)
+            """
+        cur.execute(query, (giris_data.kadi, giris_data.sifre))
+        conn.commit()
         return {"message": "Giris basarili!", "kadi": giris_data.kadi}
     else:
         raise HTTPException(status_code=401, detail="Yetkisiz giris denemesi")
@@ -73,7 +88,3 @@ async def say_hello(current_user: str = Depends(get_current_user)):
 @app.get("/qr_koordinati")
 async def say_hello(current_user: str = Depends(get_current_user)):
     return {"enlem": "51", "boylam": "53,123456,11"}
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="192.168.1.199", port=8080)

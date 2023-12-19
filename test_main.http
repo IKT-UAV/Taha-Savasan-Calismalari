@@ -11,9 +11,8 @@ Accept: application/json
 ###
 POST http://127.0.0.1:8000/giris
 Content-Type: application/json
-Content-Length: 43
 
 {
-    "kadi": "iktuav",
-    "sifre": "123456"
+  "kadi": "iktuavarac1",
+  "sifre": "123456"
 }
