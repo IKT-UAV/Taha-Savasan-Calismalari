@@ -1,8 +1,8 @@
 from datetime import datetime
-import uvicorn
+
+import psycopg2
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
-import psycopg2
 
 db_name = "savasan"
 db_user = "postgres"
@@ -46,7 +46,7 @@ app = FastAPI()
 
 def get_current_user():
     if not user_session.is_authenticated():
-        raise HTTPException(status_code=401, detail="Yetkisiz giris denemesi")
+        raise HTTPException(status_code=401, detail="Yetkisiz giris denemesi!")
     return user_session.get_authenticated_user()
 
 
