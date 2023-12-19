@@ -24,11 +24,12 @@ class UserSession:
         self.authenticated_user = None
 
     def authenticate_user(self, kadi: str, sifre: str):
-        valid_kadi = "iktuavarac1"
-        valid_sifre = "123456"
+        query = "SELECT kadi, sifre FROM takimbilgileri WHERE kadi = %s AND sifre = %s"
+        cur.execute(query, (kadi, sifre))
+        result = cur.fetchone()
 
-        if kadi == valid_kadi and sifre == valid_sifre:
-            self.authenticated_user = kadi
+        if result:
+            self.authenticated_user = result[0]
             return True
         else:
             return False
@@ -46,22 +47,16 @@ app = FastAPI()
 
 def get_current_user():
     if not user_session.is_authenticated():
-        raise HTTPException(status_code=401, detail="Yetkisiz giris denemesi!")
+        raise HTTPException(status_code=401, detail="Yetkisiz giriş denemesi!")
     return user_session.get_authenticated_user()
 
 
 @app.post("/giris")
 async def login(giris_data: GirisData):
     if user_session.authenticate_user(giris_data.kadi, giris_data.sifre):
-        query = """
-            INSERT INTO takimbilgileri (kadi, sifre)
-            VALUES (%s, %s)
-            """
-        cur.execute(query, (giris_data.kadi, giris_data.sifre))
-        conn.commit()
-        return {"message": "Giris basarili!", "kadi": giris_data.kadi}
+        return {"message": "Giriş başarılı!", "kadi": giris_data.kadi}
     else:
-        raise HTTPException(status_code=401, detail="Yetkisiz giris denemesi")
+        raise HTTPException(status_code=401, detail="Kullanıcı adı veya şifre hatalı.")
 
 
 @app.get("/sunucusaati")
@@ -85,6 +80,11 @@ async def say_hello(current_user: str = Depends(get_current_user)):
     return {}
 
 
+def db_qr_al(qr_enlem=str, qr_boylam=str):
+    query2 = "SELECT qr_enlem, qr_boylam FROM qrkoordinatlari"
+    cur.execute(query2, (qr_enlem, qr_boylam))
+    result = cur.fetchone()
+    return result
 @app.get("/qr_koordinati")
-async def say_hello(current_user: str = Depends(get_current_user)):
-    return {"enlem": "51", "boylam": "53,123456,11"}
+async def qr_koordinati(current_user: str = Depends(get_current_user)):
+    return {db_qr_al()}

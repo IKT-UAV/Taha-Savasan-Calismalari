@@ -13,6 +13,6 @@ POST http://127.0.0.1:8000/giris
 Content-Type: application/json
 
 {
-  "kadi": "iktuavarac1",
+  "kadi": "iktuavarac2",
   "sifre": "123456"
 }
