@@ -21,7 +21,7 @@ def handle_message(msg):
         iha_boylam = msg.lon / 1e7
         iha_irtifa = msg.alt / 1000  # Convert to meters
         # print(f"iha_enlem: {iha_enlem}, iha_boylam: {iha_boylam}, iha_irtifa: {iha_irtifa}")
-    # ğ
+    # ğğ
     elif msg.get_type() == 'ATTITUDE':
         iha_dikilme = msg.pitch * 180 / 3.14159
         iha_yonelme = msg.yaw * 180 / 3.14159
