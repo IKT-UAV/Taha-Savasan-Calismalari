@@ -9,7 +9,7 @@ GET http://127.0.0.1:8000/qr_koordinati
 Accept: application/json
 
 ###
-POST http://127.0.0.1:8000/giris
+POST http://0.0.0.0:8000/giris
 Content-Type: application/json
 
 {
@@ -18,5 +18,5 @@ Content-Type: application/json
 }
 
 ###
-POST http://127.0.0.1:8000/telemetri_gonder
+POST http://0.0.0.0:8000/telemetri_gonder
 Content-Type: application/json

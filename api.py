@@ -1,8 +1,8 @@
 from datetime import datetime
-
 import psycopg2
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
+import uvicorn
 
 db_name = "savasan"
 db_user = "postgres"
@@ -43,6 +43,9 @@ class UserSession:
 
 user_session = UserSession()
 app = FastAPI()
+
+def __init__(self):
+        self.authenticated_user = None
 
 
 def get_current_user():
@@ -91,3 +94,11 @@ def db_qr_al(qr_enlem=str, qr_boylam=str):
 @app.get("/qr_koordinati")
 async def qr_koordinati(current_user: str = Depends(get_current_user)):
     return {db_qr_al()}
+
+def main():
+    # Run the FastAPI application using uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
+
+
+if __name__ == "__main__":
+    main()
