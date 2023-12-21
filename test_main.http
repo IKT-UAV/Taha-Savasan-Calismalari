@@ -16,3 +16,7 @@ Content-Type: application/json
   "kadi": "iktuavarac2",
   "sifre": "123456"
 }
+
+###
+POST http://127.0.0.1:8000/telemetri_gonder
+Content-Type: application/json

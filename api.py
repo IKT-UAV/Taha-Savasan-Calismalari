@@ -67,7 +67,10 @@ async def root(current_user: str = Depends(get_current_user)):
 # Apply the same dependency to other endpoints
 @app.post("/telemetri_gonder")
 async def say_hello(current_user: str = Depends(get_current_user)):
-    return {}
+    return {
+
+        "message": "Hello"
+    }
 
 
 @app.post("/kilitlenme_bilgisi")
